@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/RonaldAG/customized-ui/backend/handlers"
@@ -38,13 +39,14 @@ func main() {
 	// trap sigterm or interupt and gracefully shutdown the server
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
-	signal.Notify(c, os.Kill)
+	signal.Notify(c, syscall.SIGTERM)
 
 	// Block until a signal is received.
 	sig := <-c
 	log.Println("Got signal:", sig)
 
 	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
-	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 	server.Shutdown(ctx)
 }

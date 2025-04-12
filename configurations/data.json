@@ -1,0 +1,14 @@
+{
+    "customFields": [
+        {
+            "title": "Notebook",
+            "dimensions": "14p",
+            "screen": "4k"
+        },
+        {
+            "title": "Book",
+            "author": "Ronald Garcia",
+            "category": "Romance"
+        }
+    ]
+}

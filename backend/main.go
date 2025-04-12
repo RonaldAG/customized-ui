@@ -1,30 +1,49 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 	"os"
-	"path/filepath"
+	"os/signal"
+	"context"
+	"time"
+
+	"github.com/gorilla/mux"
+	"github.com/RonaldAG/customized-ui/backend/handlers"
 )
 
 func main() {
-	// Get the current working directory
-	currentDir, err := os.Getwd()
-	if err != nil {
-		fmt.Printf("Error getting current directory: %v\n", err)
-		return
+	l := log.New(os.Stdout, "product-api", log.Default().Flags())
+
+	ph := handlers.NewProducts(l)
+
+	sm := mux.NewRouter()
+
+	getRouter := sm.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", ph.GetProducts)
+
+	server := http.Server{
+		Addr:    ":9090",
+		Handler: sm,
 	}
 
-	// Construct the path to data.txt
-	dataPath := filepath.Join(currentDir, "/", "configurations", "data.txt")
+	go func() {
+		err :=	server.ListenAndServe()
+		if err != nil {
+			l.Fatal(err)
+		}
+	}()
 
-	// Read the file contents
-	content, err := os.ReadFile(dataPath)
-	if err != nil {
-		fmt.Printf("Error reading file: %v\n", err)
-		return
-	}
+	// trap sigterm or interupt and gracefully shutdown the server
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+	signal.Notify(c, os.Kill)
 
-	// Print the contents
-	fmt.Println("Contents of data.txt:")
-	fmt.Println(string(content))
+	// Block until a signal is received.
+	sig := <-c
+	log.Println("Got signal:", sig)
+
+	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
+	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	server.Shutdown(ctx)
 }

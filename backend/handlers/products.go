@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 )
 
-type Products struct { 
+type Products struct {
 	log *log.Logger
 }
 
@@ -25,7 +25,7 @@ func (p *Products) GetProducts(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	// Construct the path to data.txt
-	dataPath := filepath.Join(currentDir, "/", "configurations", "data.txt")
+	dataPath := filepath.Join(currentDir, "..", "configurations", "data.txt")
 
 	// Read the file contents
 	content, err := os.ReadFile(dataPath)

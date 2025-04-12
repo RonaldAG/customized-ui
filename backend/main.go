@@ -1,15 +1,16 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"context"
 	"time"
 
-	"github.com/gorilla/mux"
 	"github.com/RonaldAG/customized-ui/backend/handlers"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -22,13 +23,13 @@ func main() {
 	getRouter := sm.Methods(http.MethodGet).Subrouter()
 	getRouter.HandleFunc("/", ph.GetProducts)
 
-	server := http.Server{
+	server := &http.Server{
 		Addr:    ":9090",
 		Handler: sm,
 	}
 
 	go func() {
-		err :=	server.ListenAndServe()
+		err := server.ListenAndServe()
 		if err != nil {
 			l.Fatal(err)
 		}

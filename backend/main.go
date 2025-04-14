@@ -12,6 +12,7 @@ import (
 	"github.com/RonaldAG/customized-ui/backend/handlers"
 
 	"github.com/gorilla/mux"
+	goHandlers "github.com/gorilla/handlers"
 )
 
 func main() {
@@ -24,9 +25,11 @@ func main() {
 	getRouter := sm.Methods(http.MethodGet).Subrouter()
 	getRouter.HandleFunc("/", ph.GetProducts)
 
+	ch := goHandlers.CORS(goHandlers.AllowedOrigins([]string{"*"}))
+
 	server := &http.Server{
 		Addr:    ":9090",
-		Handler: sm,
+		Handler: ch(sm),
 	}
 
 	go func() {

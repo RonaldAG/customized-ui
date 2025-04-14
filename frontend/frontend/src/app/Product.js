@@ -11,7 +11,8 @@ export default function Product() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("http://localhost:9090"); // read it from a env file
+      // TODO: read it from a env file
+      const response = await fetch("http://localhost:9090");
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

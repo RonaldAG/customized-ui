@@ -13,6 +13,6 @@ Commit: https://github.com/RonaldAG/customized-ui/commit/d1c793a254ab09686ff914d
 Also, change the local file to JSON. <br>
 Commit: https://github.com/RonaldAG/customized-ui/commit/7262ed936ad39f95573746739a57bae5595abd79
 
-
-
-
+## Step 3 - Frontend
+Create a simple frontend that calls the backend to retrieve the file data <br>
+Commit: https://github.com/RonaldAG/customized-ui/commit/c92268a8d8e7ad30843122c4ac08cc3161e513fd

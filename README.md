@@ -16,3 +16,8 @@ Commit: https://github.com/RonaldAG/customized-ui/commit/7262ed936ad39f955737467
 ## Step 3 - Frontend
 Create a simple frontend that calls the backend to retrieve the file data <br>
 Commit: https://github.com/RonaldAG/customized-ui/commit/c92268a8d8e7ad30843122c4ac08cc3161e513fd
+
+
+## Step 4 - Frontend and Backend
+Build integration between them to upload a file that will be used to show on UI <br>
+Commit: https://github.com/RonaldAG/customized-ui/commit/a5b22f7c8e8441666570e4aa64b3fdb1bffd1677

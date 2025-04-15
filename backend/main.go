@@ -11,8 +11,8 @@ import (
 
 	"github.com/RonaldAG/customized-ui/backend/handlers"
 
-	"github.com/gorilla/mux"
 	goHandlers "github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -24,6 +24,10 @@ func main() {
 
 	getRouter := sm.Methods(http.MethodGet).Subrouter()
 	getRouter.HandleFunc("/", ph.GetProducts)
+
+	// Add POST route for file uploads
+	postRouter := sm.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/upload", ph.PostProducts)
 
 	ch := goHandlers.CORS(goHandlers.AllowedOrigins([]string{"*"}))
 

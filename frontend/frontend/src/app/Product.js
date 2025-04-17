@@ -3,12 +3,13 @@
 import { useState, useEffect } from 'react';
 
 export default function Product() {
-  const [products, setProducts] = useState([]);
+  const [forms, setForms] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedForm, setSelectedForm] = useState('');
 
-  async function fetchProducts() {
+  async function fetchForms() {
     try {
       setLoading(true);
       setError(null);
@@ -18,10 +19,11 @@ export default function Product() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      setProducts(data.customFields);
+      console.log(data.forms[0].formName);
+      setForms(data.forms);
     } catch (error) {
       setError(error.message);
-      console.error('Error fetching products:', error);
+      console.error('Error fetching forms:', error);
     } finally {
       setLoading(false);
     }
@@ -57,7 +59,7 @@ export default function Product() {
       const result = await response.json();
       console.log('Upload successful:', result);
       // Refresh the products list after successful upload
-      fetchProducts();
+      fetchForms();
     } catch (error) {
       setError(error.message);
       console.error('Error uploading file:', error);
@@ -67,7 +69,7 @@ export default function Product() {
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchForms();
   }, []);
 
   return (
@@ -98,16 +100,18 @@ export default function Product() {
               Upload File
             </button>
           </div>
-          <div style={{ display: 'grid', gap: '20px', padding: '20px' }}>
-            {products.map((product, index) => (
-              <div key={index} >
-                {Object.entries(product).map(([key, value]) => (
-                  <div key={key} style={{ marginBottom: '8px' }}>
-                    <strong style={{ textTransform: 'capitalize' }}>{key}:</strong> {value}
-                  </div>
+          <div>
+            <form>
+              <select value={selectedForm} onChange={e => setSelectedForm(e.target.value)}>
+                <option></option>
+                {forms.map((form, index) => (
+                  <option key={index} value={form.formName}>{form.formName}</option>
                 ))}
-              </div>
-            ))}
+              </select>
+            </form>
+            <form>
+              <p>{selectedForm}</p>
+            </form>
           </div>
         </>
       )}

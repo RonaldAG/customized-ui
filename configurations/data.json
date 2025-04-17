@@ -1,14 +1,29 @@
 {
-    "customFields": [
+    "forms": [
         {
-            "title": "Notebook",
-            "dimensions": "14p",
-            "screen": "4k"
+            "formName": "SmartPhone",
+            "attributes": [
+                {
+                    "name": "title",
+                    "type": "string",
+                    "required": true
+                }
+            ]
         },
         {
-            "title": "Book",
-            "author": "Ronald Garcia",
-            "category": "Romance"
+            "formName": "Books",
+            "attributes": [
+                {
+                    "name": "title",
+                    "type": "string",
+                    "required": true
+                },
+                {
+                    "name": "author",
+                    "type": "string",
+                    "required": true
+                }
+            ]
         }
     ]
 }

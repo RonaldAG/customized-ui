@@ -19,7 +19,7 @@ export default function Product() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data.forms[0].formName);
+      console.log(data.forms);
       setForms(data.forms);
     } catch (error) {
       setError(error.message);
@@ -80,22 +80,13 @@ export default function Product() {
         <p>Loading products...</p>
       ) : (
         <>
-          <div style={{ marginBottom: '20px' }}>
+          <div>
             <input
               type="file"
               onChange={handleFileChange}
-              style={{ marginRight: '10px' }}
             />
             <button 
               onClick={handleFileUpload}
-              style={{
-                padding: '8px 16px',
-                backgroundColor: '#4CAF50',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
             >
               Upload File
             </button>
@@ -105,12 +96,18 @@ export default function Product() {
               <select value={selectedForm} onChange={e => setSelectedForm(e.target.value)}>
                 <option></option>
                 {forms.map((form, index) => (
-                  <option key={index} value={form.formName}>{form.formName}</option>
+                  <option key={index} value={index}>{form.formName}</option>
                 ))}
               </select>
             </form>
-            <form>
-              <p>{selectedForm}</p>
+            <form> {
+                selectedForm != '' ?
+                forms[selectedForm].attributes.map((attribute, index) => (
+                  <label key={index}>
+                    {attribute.name}:<input name={attribute.name} type={attribute.type == 'string' ? "text" : "checkbox"}/> 
+                  </label>
+                )) : <p></p>
+              }
             </form>
           </div>
         </>
